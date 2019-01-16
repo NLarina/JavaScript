@@ -2,10 +2,9 @@
 let money, time;
 
 function start() {
-    
-    
-     while(isNaN(money)|| money=="" || money==null)
-     {
+
+
+     while (isNaN(money) || money == "" || money == null) {
           money = +prompt("Ваш бюджет на месяц?");
      }
 }
@@ -21,73 +20,112 @@ var appDate = {
      optionalExpenses: {},
      income: [],
      saving: true,
+     chooseExpenses: function () {
+          for (let i = 0; i < 2; i++) {
+               let nameExpenses = prompt("Введите обязательную статью расходов в этом месяце");
+               let costExpenses = prompt("Во сколько это обойдется?");
+               if (typeof (nameExpenses) == 'string' && typeof (nameExpenses) != null && typeof (costExpenses) != null && nameExpenses.length < 50 &&
+                    nameExpenses != "" && costExpenses != "") {
+                    appDate.expenses[nameExpenses] = costExpenses;
+                    console.log("Done");
+               } else
+                    (
+                         i--
+                    );
 
 
+          }
 
-};
+     },
 
-function chooseExpenses()
+     detectDayBudjet: function()
+     {
+          appDate.MoneyPerDay = (appDate.resource / 30).toFixed();
+          alert("Ежедневный бюджет = " + appDate.MoneyPerDay);
+     },
+levelBudget: function()
 {
-
-     for (let i = 0; i < 2; i++) {
-          let nameExpenses = prompt("Введите обязательную статью расходов в этом месяце");
-          let costExpenses = prompt("Во сколько это обойдется?");
-          if (typeof (nameExpenses) == 'string' && typeof (nameExpenses) != null && typeof (costExpenses) != null && nameExpenses.length < 50 &&
-               nameExpenses != "" && costExpenses != "") {
-               appDate.expenses[nameExpenses] = costExpenses;
-               console.log("Done");
-          } else
-               (
-                    i--
-               );
-     
-     
-     }
-     console.log();
-     
-}
-chooseExpenses();
-
-function detectDayBudjet()
-{
-     appDate.MoneyPerDay = (appDate.resource / 30).toFixed();
-     alert("Ежедневный бюджет = " + appDate.MoneyPerDay);
-}
-
-function detectLevel()
-{
+     let temp;
      switch (appDate.MoneyPerDay) {
           case appDate.MoneyPerDay < 1000:
-               appDate.levelBudget = "Минимальный уровень достатка";
+               temp = "Минимальный уровень достатка";
                break;
           case appDate.MoneyPerDay < 3000:
-               appDate.levelBudget = "Средний уровень достатка";
+               temp = "Средний уровень достатка";
                break;
           case appDate.MoneyPerDay < 5000:
-               appDate.levelBudget = "Высокий уровень достатка";
+               temp = "Высокий уровень достатка";
                break;
-     
+
      }
+     return temp;
+
+}, 
+checkSavings: function()
+{
+     if (appDate.saving == true) {
+
+          let save = +prompt("Введите сумму ваших накоплений на депозите"),
+               percent = prompt("Под какой процент");
+          appDate.monthIncome = (save / 100 / 12 * percent).toFixed();
+          alert("Доход в месяц с вашего депозите: " + appDate.monthIncome);
+     }
+
+}, 
+chooseOptExpenses()
+{
+     for(let i=0; i<3; i++)
+     {
+          let opt=prompt("Введите статью необязательных расходов?", "");
+          appDate.optionalExpenses[i]=opt;
+     }
+}, 
+chooseIncome: function()
+{
+     let items;
+     while( items == null|| items=="")
+     {
+          items =  prompt("Что принесет дополнительный доход? (перечислите через запятую)", "");
+     }
+      
+     appDate.income=items.split(",");
+     appDate.income.push(prompt("Есть еще доходы?", ""));
+     appDate.income.sort();
+
+     let temp; 
+     appDate.income.forEach(function (item, i, mass) {
+         let k=0;
+          k=i+1; 
+          temp = temp + k + ". " + item+ "\n";
      
+     });
+
+alert(temp); 
+
+},
+programInclude: function()
+{
+     console.log("Наша программа включает в себя такие данные как: ")
+for (let i in appDate)
+{
+console.log(i);
+}
 }
 
 
-
-
-function checkSavings()
-{
-
-    
-     if (appDate.saving==true)
-      {
-          
-          let save = +prompt("Введите сумму ваших накоплений на депозите"),
-          percent = prompt("Под какой процент");
-          appDate.monthIncome = (save/100/12*percent).toFixed();
-          alert("Доход в месяц с вашего депозите: " + appDate.monthIncome);
-      }
-      
-
-
 };
-checkSavings();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
